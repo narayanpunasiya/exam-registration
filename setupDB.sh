@@ -10,6 +10,7 @@ DB_NAME="test_db"
 # DB_FILE="app/src/main/resources/init-schema.sql"
 
 echo "Initializing MySQL database..."
+sudo mysql -uroot -e "DROP USER IF EXISTS '$DB_USER'@'localhost';"
 sudo mysql -uroot -e "CREATE USER '$DB_USER'@'localhost' IDENTIFIED BY '$DB_PASS';"
 sudo mysql -uroot -e "GRANT ALL PRIVILEGES ON *.* TO '$DB_USER'@'localhost' WITH GRANT OPTION;"
 sudo mysql -uroot -e "FLUSH PRIVILEGES;"
