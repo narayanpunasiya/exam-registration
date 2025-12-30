@@ -43,7 +43,7 @@ public class ExamControllerTest {
     void testCreateExam() throws Exception {
         Mockito.when(examService.createExam(1L)).thenReturn(testExam);
 
-        mockMvc.perform(post("/exam/subjects/1"))
+        mockMvc.perform(post("/exams/subjects/1"))
                .andExpect(status().isCreated())
                .andExpect(jsonPath("$.id", is(1)))
                .andExpect(jsonPath("$.examName", is("ENGLISHEXAM")))
@@ -55,7 +55,7 @@ public class ExamControllerTest {
     void testGetExamById() throws Exception {
         Mockito.when(examService.getExam(1L)).thenReturn(testExam);
 
-        mockMvc.perform(get("/exam/1"))
+        mockMvc.perform(get("/exams/1"))
                .andExpect(status().isOk())
                  .andExpect(jsonPath("$.id", is(1)))
                .andExpect(jsonPath("$.examName", is("ENGLISHEXAM")))
@@ -68,7 +68,7 @@ public class ExamControllerTest {
         List<Exam> exams = List.of(testExam);
         Mockito.when(examService.getAllExams()).thenReturn(exams);
 
-        mockMvc.perform(get("/exam"))
+        mockMvc.perform(get("/exams"))
                .andExpect(status().isOk())
                .andExpect(jsonPath("$[0].id", is(1)))
                .andExpect(jsonPath("$[0].examName", is("ENGLISHEXAM")))

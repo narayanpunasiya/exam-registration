@@ -1,45 +1,40 @@
 package com.crio.learning_navigator.controller;
 
-import java.util.List;
 import com.crio.learning_navigator.dto.ExamDTO;
+import com.crio.learning_navigator.entity.Exam;
 import com.crio.learning_navigator.mapper.EntityMapper;
 import com.crio.learning_navigator.service.ExamService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
-@RequestMapping("/exam")
+@RequestMapping("/exams")
 public class ExamController {
 
-    private final ExamService service;
+    private final ExamService examService;
 
-    public ExamController(ExamService service) {
-        this.service = service;
+    public ExamController(ExamService examService) {
+        this.examService = examService;
     }
 
     @PostMapping("/subjects/{subjectId}")
-    public ResponseEntity<ExamDTO> create(@PathVariable("subjectId") Long subjectId) {
-        return new ResponseEntity<>(
-                EntityMapper.toExamDTO(service.createExam(subjectId)),
-                HttpStatus.CREATED
-        );
+    public ResponseEntity<ExamDTO> create(@PathVariable Long subjectId) {
+        Exam exam = examService.createExam(subjectId);
+        return new ResponseEntity<>(EntityMapper.toExamDTO(exam), HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public ExamDTO get(@PathVariable("id") Long id) {
-        return EntityMapper.toExamDTO(service.getExam(id));
+    public ResponseEntity<ExamDTO> get(@PathVariable Long id) {
+        Exam exam = examService.getExam(id);
+        return ResponseEntity.ok(EntityMapper.toExamDTO(exam));
     }
 
     @GetMapping
-    public List<ExamDTO> getAll() {
-        return service.getAllExams()
-                      .stream()
-                      .map(EntityMapper::toExamDTO)
-                      .toList();
+    public ResponseEntity<List<ExamDTO>> getAll() {
+        List<ExamDTO> exams = EntityMapper.toExamDTOList(examService.getAllExams());
+        return ResponseEntity.ok(exams);
     }
 }

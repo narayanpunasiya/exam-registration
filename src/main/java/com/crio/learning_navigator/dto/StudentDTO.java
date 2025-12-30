@@ -1,8 +1,7 @@
 package com.crio.learning_navigator.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -13,6 +12,10 @@ public class StudentDTO {
     private Long id;
     private String name;
 
-    private List<Long> enrolledSubjectIds;
-    private List<Long> enrolledExamIds;
+    private List<SubjectDTO> enrolledSubjects = new ArrayList<>();
+    private List<ExamDTO> enrolledExams = new ArrayList<>();
+
+    private List<Long> enrolledSubjectIds = new ArrayList<>();
+    private List<Long> enrolledExamIds = new ArrayList<>();
 }
+

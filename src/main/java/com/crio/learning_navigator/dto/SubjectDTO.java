@@ -1,8 +1,6 @@
 package com.crio.learning_navigator.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import java.util.List;
 
 @Data
@@ -12,7 +10,7 @@ public class SubjectDTO {
 
     private Long id;
     private String subjectName;
-
+    
     private List<Long> studentIds;
 }
 

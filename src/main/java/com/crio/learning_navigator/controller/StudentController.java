@@ -18,47 +18,45 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/students")
 public class StudentController {
 
-    private final StudentService service;
+    private final StudentService studentService;
 
-    public StudentController(StudentService service) {
-        this.service = service;
+    public StudentController(StudentService studentService) {
+        this.studentService = studentService;
     }
 
     @PostMapping
     public ResponseEntity<StudentDTO> create(@RequestBody Student student) {
-        Student saved = service.createStudent(student);
+        Student saved = studentService.createStudent(student);
         return new ResponseEntity<>(EntityMapper.toStudentDTO(saved), HttpStatus.CREATED);
     }
 
     @PostMapping("/{studentId}/subjects/{subjectId}")
     public ResponseEntity<StudentDTO> enrollSubject(
-            @PathVariable("studentId") Long studentId,
-            @PathVariable("subjectId") Long subjectId) {
+            @PathVariable Long studentId,
+            @PathVariable Long subjectId) {
 
-                Student student = service.enrollSubject(studentId, subjectId);
+                Student student = studentService.enrollSubject(studentId, subjectId);
                 return ResponseEntity.ok(EntityMapper.toStudentDTO(student));
     }
 
     @PostMapping("/{studentId}/exams/{examId}")
-    public StudentDTO enrollExam(
-            @PathVariable("studentId") Long studentId,
-            @PathVariable("examId") Long examId) {
+    public ResponseEntity<StudentDTO> enrollExam(
+            @PathVariable Long studentId,
+            @PathVariable Long examId) {
 
-        return EntityMapper.toStudentDTO(
-                service.enrollExam(studentId, examId)
-        );
+        Student updated = studentService.enrollExam(studentId, examId);
+        return ResponseEntity.ok(EntityMapper.toStudentDTO(updated));
     }
 
     @GetMapping("/{id}")
-    public StudentDTO get(@PathVariable("id") Long id) {
-        return EntityMapper.toStudentDTO(service.getStudent(id));
+    public ResponseEntity<StudentDTO> get(@PathVariable("id") Long id) {
+        Student student = studentService.getStudent(id);
+        return ResponseEntity.ok(EntityMapper.toStudentDTO(student)); 
     }
 
     @GetMapping
-    public List<StudentDTO> getAll() {
-        return service.getAllStudents()
-                      .stream()
-                      .map(EntityMapper::toStudentDTO)
-                      .toList();
+    public ResponseEntity<List<StudentDTO>> getAll() {
+        List<StudentDTO> students = EntityMapper.toStudentDTOList(studentService.getAllStudents());
+        return ResponseEntity.ok(students);
     }
 }

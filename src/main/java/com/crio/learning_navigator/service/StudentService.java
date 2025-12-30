@@ -7,11 +7,12 @@ public interface StudentService {
 
     Student createStudent(Student student);
 
-    Student enrollSubject(Long studentId, Long subjectId);
-
-    Student enrollExam(Long studentId, Long examId);
-
     Student getStudent(Long id);
 
     List<Student> getAllStudents();
+
+    Student enrollSubject(Long studentId, Long subjectId);
+
+    Student enrollExam(Long studentId, Long examId);
+  
 }

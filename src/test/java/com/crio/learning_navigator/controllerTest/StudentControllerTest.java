@@ -60,8 +60,8 @@ class StudentControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.name").value("Akash"))
-                .andExpect(jsonPath("$.enrolledSubjectIds").isArray())
-                .andExpect(jsonPath("$.enrolledExamIds").isArray());
+                .andExpect(jsonPath("$.enrolledSubjects").isArray())
+                .andExpect(jsonPath("$.enrolledExams").isArray());
     }
 
     @Test
@@ -74,8 +74,8 @@ class StudentControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.name").value("Akash"))
-                .andExpect(jsonPath("$.enrolledSubjectIds").isEmpty())
-                .andExpect(jsonPath("$.enrolledExamIds").isEmpty());
+                .andExpect(jsonPath("$.enrolledSubjects").isEmpty())
+                .andExpect(jsonPath("$.enrolledExams").isEmpty());
     }
 
     @Test
@@ -88,8 +88,8 @@ class StudentControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.name").value("Akash"))
-                .andExpect(jsonPath("$.enrolledSubjectIds").isEmpty())
-                .andExpect(jsonPath("$.enrolledExamIds").isEmpty());
+                .andExpect(jsonPath("$.enrolledSubjects").isEmpty())
+                .andExpect(jsonPath("$.enrolledExams").isEmpty());
     }
 
     @Test
@@ -100,7 +100,7 @@ class StudentControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.name").value("Akash"))
-                .andExpect(jsonPath("$.enrolledSubjectIds").isEmpty())
-                .andExpect(jsonPath("$.enrolledExamIds").isEmpty());
+                .andExpect(jsonPath("$.enrolledSubjects").isEmpty())
+                .andExpect(jsonPath("$.enrolledExams").isEmpty());
     }
 }

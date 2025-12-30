@@ -3,7 +3,6 @@ package com.crio.learning_navigator.service;
 import java.util.List;
 import com.crio.learning_navigator.entity.Exam;
 import com.crio.learning_navigator.entity.Subject;
-import com.crio.learning_navigator.exception.BadRequestException;
 import com.crio.learning_navigator.exception.ResourceNotFoundException;
 import com.crio.learning_navigator.repository.ExamRepository;
 import com.crio.learning_navigator.repository.SubjectRepository;
@@ -24,14 +23,6 @@ public class ExamServiceImpl implements ExamService{
         Subject subject = subjectRepo.findById(subjectId)
             .orElseThrow(()-> new ResourceNotFoundException("subject not found"));
         
-        List<Exam> existingExams = examRepo.findAll();
-        boolean alreadyExists = existingExams.stream()
-                                             . anyMatch(exam -> exam.getSubject().getId().equals(subjectId));
-                                             
-        if(alreadyExists){
-            throw new BadRequestException("Exam already exists for this subject");
-        }
-
         Exam exam =  new Exam();
         exam.setExamName(subject.getSubjectName() + "EXAM");
         exam.setSubject(subject);

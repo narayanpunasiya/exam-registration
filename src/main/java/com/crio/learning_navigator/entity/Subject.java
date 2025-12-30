@@ -10,7 +10,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Data
@@ -25,7 +24,6 @@ public class Subject {
     private String subjectName;
 
     @ManyToMany(mappedBy = "enrolledSubjects")
-    @JsonIgnoreProperties("enrolledSubjects")
     private List<Student> students = new ArrayList<>();
 
 }
