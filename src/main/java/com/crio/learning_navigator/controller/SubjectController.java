@@ -27,7 +27,7 @@ public class SubjectController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SubjectDTO> get(@PathVariable Long id) {
+    public ResponseEntity<SubjectDTO> get(@PathVariable("id") Long id) {
         Subject subject = subjectService.getSubject(id);
         return ResponseEntity.ok(EntityMapper.toSubjectDTO(subject));
     }

@@ -5,12 +5,15 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import com.crio.learning_navigator.controller.ExamController;
 import com.crio.learning_navigator.entity.Exam;
 import com.crio.learning_navigator.entity.Subject;
 import com.crio.learning_navigator.service.ExamService;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -20,9 +23,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-@WebMvcTest(ExamController.class)
+@WebMvcTest(controllers = ExamController.class)
 @AutoConfigureMockMvc(addFilters = false)
-public class ExamControllerTest {
+class ExamControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -31,12 +34,11 @@ public class ExamControllerTest {
     private ExamService examService;
 
     private Exam testExam;
-    private Subject testSubject;
 
     @BeforeEach
     void setUp() {
-        testSubject = new Subject(1L, "ENGLISH", new ArrayList<>());
-        testExam = new Exam(1L, "ENGLISHEXAM", testSubject, new ArrayList<>());
+        Subject subject = new Subject(1L, "ENGLISH", new ArrayList<>());
+        testExam = new Exam(1L, "ENGLISHEXAM", subject, new ArrayList<>());
     }
 
     @Test
@@ -44,11 +46,12 @@ public class ExamControllerTest {
         Mockito.when(examService.createExam(1L)).thenReturn(testExam);
 
         mockMvc.perform(post("/exams/subjects/1"))
-               .andExpect(status().isCreated())
-               .andExpect(jsonPath("$.id", is(1)))
-               .andExpect(jsonPath("$.examName", is("ENGLISHEXAM")))
-               .andExpect(jsonPath("$.subjectId", is(1)))
-               .andExpect(jsonPath("$.studentIds").isEmpty());
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.examName").value("ENGLISHEXAM"))
+                .andExpect(jsonPath("$.subjectId").value(1))
+                .andExpect(jsonPath("$.studentIds").isArray())
+                .andExpect(jsonPath("$.studentIds").isEmpty());
     }
 
     @Test
@@ -56,23 +59,24 @@ public class ExamControllerTest {
         Mockito.when(examService.getExam(1L)).thenReturn(testExam);
 
         mockMvc.perform(get("/exams/1"))
-               .andExpect(status().isOk())
-                 .andExpect(jsonPath("$.id", is(1)))
-               .andExpect(jsonPath("$.examName", is("ENGLISHEXAM")))
-               .andExpect(jsonPath("$.subjectId", is(1)))
-               .andExpect(jsonPath("$.studentIds").isEmpty());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.examName").value("ENGLISHEXAM"))
+                .andExpect(jsonPath("$.subjectId").value(1))
+                .andExpect(jsonPath("$.studentIds").isArray())
+                .andExpect(jsonPath("$.studentIds").isEmpty());
     }
 
     @Test
     void testGetAllExams() throws Exception {
-        List<Exam> exams = List.of(testExam);
-        Mockito.when(examService.getAllExams()).thenReturn(exams);
+        Mockito.when(examService.getAllExams()).thenReturn(List.of(testExam));
 
         mockMvc.perform(get("/exams"))
-               .andExpect(status().isOk())
-               .andExpect(jsonPath("$[0].id", is(1)))
-               .andExpect(jsonPath("$[0].examName", is("ENGLISHEXAM")))
-               .andExpect(jsonPath("$[0].subjectId", is(1)))
-               .andExpect(jsonPath("$[0].studentIds").isEmpty());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id").value(1))
+                .andExpect(jsonPath("$[0].examName").value("ENGLISHEXAM"))
+                .andExpect(jsonPath("$[0].subjectId").value(1))
+                .andExpect(jsonPath("$[0].studentIds").isArray())
+                .andExpect(jsonPath("$[0].studentIds").isEmpty());
     }
 }

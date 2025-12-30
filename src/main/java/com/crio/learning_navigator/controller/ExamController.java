@@ -21,13 +21,13 @@ public class ExamController {
     }
 
     @PostMapping("/subjects/{subjectId}")
-    public ResponseEntity<ExamDTO> create(@PathVariable Long subjectId) {
+    public ResponseEntity<ExamDTO> create(@PathVariable("subjectId") Long subjectId) {
         Exam exam = examService.createExam(subjectId);
         return new ResponseEntity<>(EntityMapper.toExamDTO(exam), HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ExamDTO> get(@PathVariable Long id) {
+    public ResponseEntity<ExamDTO> get(@PathVariable("id") Long id) {
         Exam exam = examService.getExam(id);
         return ResponseEntity.ok(EntityMapper.toExamDTO(exam));
     }

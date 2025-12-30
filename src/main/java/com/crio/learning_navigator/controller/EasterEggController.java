@@ -18,7 +18,7 @@ public class EasterEggController {
 
     @GetMapping("/hidden-feature/{number}")
     public ResponseEntity<Map<String, String>> hiddenFeature(
-            @PathVariable int number) {
+            @PathVariable("number") int number) {
 
         return ResponseEntity.ok(Map.of(
                 "message", "Great! You have found the hidden number fact",

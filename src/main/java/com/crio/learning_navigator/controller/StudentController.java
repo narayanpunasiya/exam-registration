@@ -32,8 +32,8 @@ public class StudentController {
 
     @PostMapping("/{studentId}/subjects/{subjectId}")
     public ResponseEntity<StudentDTO> enrollSubject(
-            @PathVariable Long studentId,
-            @PathVariable Long subjectId) {
+            @PathVariable("studentId") Long studentId,
+            @PathVariable("subjectId") Long subjectId) {
 
                 Student student = studentService.enrollSubject(studentId, subjectId);
                 return ResponseEntity.ok(EntityMapper.toStudentDTO(student));
@@ -41,8 +41,8 @@ public class StudentController {
 
     @PostMapping("/{studentId}/exams/{examId}")
     public ResponseEntity<StudentDTO> enrollExam(
-            @PathVariable Long studentId,
-            @PathVariable Long examId) {
+            @PathVariable("studentId") Long studentId,
+            @PathVariable("examId") Long examId) {
 
         Student updated = studentService.enrollExam(studentId, examId);
         return ResponseEntity.ok(EntityMapper.toStudentDTO(updated));
